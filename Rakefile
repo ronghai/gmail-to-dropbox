@@ -10,14 +10,37 @@ Jeweler::Tasks.new do |gem|
   gem.name = "gmail-to-dropbox"
   gem.homepage = "http://github.com/RONGHAI/gmail-to-dropbox"
   gem.license = "MIT"
-  gem.summary = %Q{save gmail attachments to dropbox}
-  gem.description = %Q{save gmail/Dropbox attachments to dropbox}
+  gem.summary = %Q{sync gmail/Dropbox unread emails' attachements to dropbox}
+  gem.description = %Q{sync all attachments of gmail/Dropbox unread emails to dropbox}
   gem.email = "ronghai.wei@msn.com"
   gem.authors = ["RONGHAI"]
-  gem.version = '0.0.1'  
   gem.post_install_message = ""
-  gem.add_dependency('ruby-gmail', '>= 0.3.0')
-  gem.add_dependency('dropboxsdk', '>= 1.5.1')  
-  # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
+
+#require 'rcov/rcovtask'
+#Rcov::RcovTask.new do |test|
+#  test.libs << 'test'
+#  test.pattern = 'test/**/test_*.rb'
+#  test.verbose = true
+#  test.rcov_opts << '--exclude "gems/*"'
+#end
+
+task :default => :test
+
+require 'rdoc/task'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "l5m-tools #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
